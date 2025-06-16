@@ -1,0 +1,419 @@
+/* Module-specific styles and enhancements */
+
+/* Enhanced video controls */
+.video-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.video-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(0, 113, 227, 0.1) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.video-card:hover::before {
+    opacity: 1;
+}
+
+.video-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    z-index: 2;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 3;
+}
+
+/* Enhanced assignment states */
+.assignment-section.submitted {
+    border-left: 4px solid var(--success);
+    background: rgba(6, 199, 85, 0.05);
+}
+
+.assignment-section.overdue {
+    border-left: 4px solid var(--error);
+    background: rgba(255, 59, 48, 0.05);
+}
+
+.submission-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.submission-status.submitted {
+    background: rgba(6, 199, 85, 0.2);
+    color: var(--success);
+}
+
+.submission-status.pending {
+    background: rgba(255, 149, 0, 0.2);
+    color: var(--warning);
+}
+
+.submission-status.overdue {
+    background: rgba(255, 59, 48, 0.2);
+    color: var(--error);
+}
+
+/* Code syntax highlighting for GitHub previews */
+.code-preview {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    overflow-x: auto;
+}
+
+.code-preview .comment {
+    color: #6a737d;
+}
+
+.code-preview .keyword {
+    color: #d73a49;
+}
+
+.code-preview .string {
+    color: #032f62;
+}
+
+.code-preview .number {
+    color: #005cc5;
+}
+
+/* Interactive elements */
+.interactive-demo {
+    background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border: 2px dashed rgba(0, 113, 227, 0.3);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.interactive-demo:hover {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(0, 113, 227, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+}
+
+.demo-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.7;
+}
+
+.demo-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent);
+}
+
+.demo-description {
+    color: var(--gray);
+    font-size: 14px;
+}
+
+/* Progress indicators */
+.checkpoint {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin: 8px 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.checkpoint:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.checkpoint-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.checkpoint.completed .checkpoint-icon {
+    background: var(--success);
+}
+
+.checkpoint-text {
+    flex: 1;
+    color: #fff;
+}
+
+.checkpoint.completed .checkpoint-text {
+    color: var(--success);
+}
+
+/* Module-specific badges */
+.module-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.module-badge.hands-on {
+    background: rgba(0, 113, 227, 0.2);
+    color: var(--accent);
+}
+
+.module-badge.project {
+    background: rgba(255, 149, 0, 0.2);
+    color: var(--warning);
+}
+
+.module-badge.assessment {
+    background: rgba(255, 59, 48, 0.2);
+    color: var(--error);
+}
+
+/* Learning path visualization */
+.learning-path {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.path-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+    text-align: center;
+}
+
+.path-step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.path-step.completed .path-step-icon {
+    background: var(--success);
+}
+
+.path-step.current .path-step-icon {
+    background: var(--accent);
+    animation: pulse 2s infinite;
+}
+
+.path-step-label {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+.path-step.completed .path-step-label {
+    color: var(--success);
+}
+
+.path-step.current .path-step-label {
+    color: var(--accent);
+}
+
+.path-connector {
+    width: 30px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 -5px;
+}
+
+.path-connector.completed {
+    background: var(--success);
+}
+
+/* Quick actions panel */
+.quick-actions {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+}
+
+.quick-action-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.quick-action-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--hover-shadow);
+}
+
+.quick-action-btn.secondary {
+    background: var(--gray);
+}
+
+/* Expandable sections */
+.expandable-section {
+    margin: 15px 0;
+}
+
+.expand-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.expand-trigger:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.expand-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.expand-content.expanded {
+    max-height: 500px;
+    padding: 15px;
+}
+
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+
+.expand-trigger.expanded .expand-icon {
+    transform: rotate(180deg);
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+    .learning-path {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .path-connector {
+        width: 2px;
+        height: 20px;
+        margin: -5px 0;
+    }
+    
+    .quick-actions {
+        right: 10px;
+        bottom: 10px;
+    }
+    
+    .quick-action-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .video-card::before,
+    .checkpoint,
+    .quick-action-btn,
+    .expand-trigger,
+    .path-step-icon {
+        transition: none;
+    }
+    
+    .path-step.current .path-step-icon {
+        animation: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .module-section {
+        border: 2px solid #fff;
+    }
+    
+    .video-card,
+    .github-section,
+    .resource-card {
+        border: 1px solid #fff;
+    }
+}
+
+/* Dark mode specific adjustments */
+@media (prefers-color-scheme: dark) {
+    .code-preview .string {
+        color: #9ecbff;
+    }
+    
+    .code-preview .comment {
+        color: #8b949e;
+    }
+}
