@@ -93,13 +93,19 @@ async function loadModules() {
  */
 async function loadModuleContent(moduleId) {
     try {
+        console.log(`Loading content for module ${moduleId}`);
         const response = await fetch(`data/content/module-${moduleId}-content.json`);
+        console.log(`Content response status: ${response.status}`);
+        
         if (response.ok) {
             const content = await response.json();
+            console.log('Content loaded:', content);
             populateDetailedContent(content);
+        } else {
+            console.log(`Content file not found: module-${moduleId}-content.json`);
         }
     } catch (error) {
-        console.log('Detailed content not available for module', moduleId);
+        console.error('Content loading error:', error);
     }
 }
 
