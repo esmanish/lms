@@ -58,6 +58,8 @@ function loadUserData() {
 async function loadModules() {
     try {
         console.log('Loading modules...');
+        console.log('Current URL:', window.location.href);
+        console.log('Fetching:', new URL('data/modules.json', window.location.href).href);
         const response = await fetch('data/modules.json');
         console.log('Response status:', response.status);
         
