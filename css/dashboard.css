@@ -702,3 +702,32 @@ body {
         gap: 10px;
     }
 }
+
+.content-section {
+    margin: 30px 0;
+    padding: 20px;
+    border-left: 3px solid var(--accent);
+    background: rgba(255,255,255,0.02);
+}
+
+.section-duration {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.content-image img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.warning-box, .tip-box, .success-box {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.warning-box { background: rgba(255,149,0,0.1); border-left: 4px solid var(--warning); }
+.tip-box { background: rgba(0,113,227,0.1); border-left: 4px solid var(--accent); }
+.success-box { background: rgba(6,199,85,0.1); border-left: 4px solid var(--success); }

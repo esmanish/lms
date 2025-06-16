@@ -89,6 +89,81 @@ async function loadModules() {
 }
 
 /**
+ * Load detailed module content
+ */
+async function loadModuleContent(moduleId) {
+    try {
+        const response = await fetch(`data/content/module-${moduleId}-content.json`);
+        if (response.ok) {
+            const content = await response.json();
+            populateDetailedContent(content);
+        }
+    } catch (error) {
+        console.log('Detailed content not available for module', moduleId);
+    }
+}
+
+/**
+ * Populate detailed module content
+ */
+function populateDetailedContent(content) {
+    const moduleContent = document.getElementById('module-content');
+    
+    // Add detailed content section after existing sections
+    let detailedSection = document.getElementById('detailed-content');
+    if (!detailedSection) {
+        detailedSection = document.createElement('section');
+        detailedSection.id = 'detailed-content';
+        detailedSection.className = 'module-section';
+        moduleContent.appendChild(detailedSection);
+    }
+    
+    detailedSection.innerHTML = `
+        <h2>Detailed Instructions</h2>
+        <div class="content-sections">
+            ${content.sections.map(section => `
+                <div class="content-section">
+                    <h3>${section.title}</h3>
+                    <div class="section-duration">${section.duration}</div>
+                    <div class="section-content">
+                        ${section.content.map(item => renderContentItem(item)).join('')}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+/**
+ * Render individual content items
+ */
+function renderContentItem(item) {
+    switch (item.type) {
+        case 'text':
+            return `<p>${item.content}</p>`;
+        case 'heading':
+            return `<h4>${item.content}</h4>`;
+        case 'steps':
+            return `<ol>${item.content.map(step => `<li>${step}</li>`).join('')}</ol>`;
+        case 'image':
+            return `<div class="content-image">
+                <img src="${item.src}" alt="${item.alt}" />
+                <caption>${item.caption}</caption>
+            </div>`;
+        case 'code':
+            return `<pre><code class="language-${item.language}">${item.content}</code></pre>`;
+        case 'warning':
+            return `<div class="warning-box">⚠️ ${item.content}</div>`;
+        case 'tip':
+            return `<div class="tip-box">💡 ${item.content}</div>`;
+        case 'success':
+            return `<div class="success-box">✅ ${item.content}</div>`;
+        default:
+            return `<p>${item.content}</p>`;
+    }
+}
+
+/**
  * Populate module navigation sidebar
  */
 function populateModuleNav() {
@@ -153,6 +228,7 @@ function loadModule(moduleId) {
     
     // Populate module content
     populateModuleContent(module);
+    loadModuleContent(moduleId);
     
     // Update navigation buttons
     updateNavigationButtons(moduleId);
