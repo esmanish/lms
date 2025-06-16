@@ -4,22 +4,12 @@ let currentModule = null;
 let userProgress = {};
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check authentication
     checkAuth();
-    
-    // Load user data
     loadUserData();
-    
-    // Load modules data
     loadModules();
-    
-    // Initialize progress tracking
     initializeProgress();
 });
 
-/**
- * Check if user is authenticated
- */
 function checkAuth() {
     const userType = sessionStorage.getItem('userType');
     const username = sessionStorage.getItem('username');
@@ -29,23 +19,17 @@ function checkAuth() {
         return;
     }
     
-    // Set username in header
     const usernameElement = document.getElementById('username');
     if (usernameElement) {
         usernameElement.textContent = username || 'Student';
     }
 }
 
-/**
- * Load user progress data
- */
 function loadUserData() {
-    // Load from localStorage or initialize
     const savedProgress = localStorage.getItem('userProgress');
     if (savedProgress) {
         userProgress = JSON.parse(savedProgress);
     } else {
-        // Initialize progress for all modules
         userProgress = {
             completed: [],
             currentModule: 1,
@@ -55,9 +39,6 @@ function loadUserData() {
     }
 }
 
-/**
- * Load modules data from JSON
- */
 async function loadModules() {
     try {
         console.log('Loading modules...');
@@ -77,7 +58,6 @@ async function loadModules() {
         
     } catch (error) {
         console.error('Error details:', error);
-        // Fallback with inline data
         moduleData = {
             modules: [
                 {id: 1, title: "VR Demo Experience", duration: "1 hour", description: "First VR experience", objectives: ["Experience VR"], videos: [], github: {repo: "#", description: "Demo"}, assignment: {title: "Reflection", description: "Write reflection", submission: "text", dueDate: "Week 1"}}
@@ -89,9 +69,6 @@ async function loadModules() {
     }
 }
 
-/**
- * Populate module navigation sidebar
- */
 function populateModuleNav() {
     const moduleNav = document.getElementById('module-nav');
     if (!moduleNav) return;
@@ -103,7 +80,6 @@ function populateModuleNav() {
         moduleItem.className = 'module-item';
         moduleItem.onclick = () => loadModule(module.id);
         
-        // Add completed class if module is completed
         if (userProgress.completed.includes(module.id)) {
             moduleItem.classList.add('completed');
         }
@@ -120,9 +96,6 @@ function populateModuleNav() {
     });
 }
 
-/**
- * Show welcome screen
- */
 function showWelcomeScreen() {
     const welcomeScreen = document.getElementById('welcome-screen');
     const moduleContent = document.getElementById('module-content');
@@ -130,29 +103,23 @@ function showWelcomeScreen() {
     if (welcomeScreen) welcomeScreen.style.display = 'block';
     if (moduleContent) moduleContent.style.display = 'none';
     
-    // Update active module in sidebar
     document.querySelectorAll('.module-item').forEach(item => {
         item.classList.remove('active');
     });
 }
 
-/**
- * Load and display specific module
- */
 async function loadModule(moduleId) {
     const module = moduleData.modules.find(m => m.id === moduleId);
     if (!module) return;
     
     currentModule = module;
     
-    // Hide welcome screen, show module content
     const welcomeScreen = document.getElementById('welcome-screen');
     const moduleContent = document.getElementById('module-content');
     
     if (welcomeScreen) welcomeScreen.style.display = 'none';
     if (moduleContent) moduleContent.style.display = 'block';
     
-    // Update active module in sidebar
     document.querySelectorAll('.module-item').forEach((item, index) => {
         item.classList.remove('active');
         if (index === moduleId - 1) {
@@ -160,7 +127,7 @@ async function loadModule(moduleId) {
         }
     });
     
-    // Try to load detailed content from individual module file
+    // Try to load detailed content
     let detailedContent = null;
     try {
         console.log(`Loading content for module ${moduleId}`);
@@ -182,48 +149,33 @@ async function loadModule(moduleId) {
         console.log(`No detailed content for module ${moduleId}, using basic data:`, error.message);
     }
     
-    // Use detailed content if available, otherwise fall back to basic module data
     const contentToUse = detailedContent || module;
-    
-    // Populate module content
     populateModuleContent(contentToUse);
     
-    // Update navigation buttons
     updateNavigationButtons(moduleId);
     
-    // Update user progress
     userProgress.currentModule = moduleId;
     userProgress.lastAccessed = new Date().toISOString();
     saveUserProgress();
     
-    // Scroll to top
     const mainContent = document.querySelector('.main-content');
     if (mainContent) mainContent.scrollTop = 0;
     
-    // Track module access
     if (window.progressTracker) {
         window.progressTracker.startModuleTracking(moduleId);
     }
 }
 
-/**
- * Populate module content (supports both basic and detailed formats)
- */
 function populateModuleContent(content) {
-    // Check if this is detailed content with sections
     if (content.sections && Array.isArray(content.sections)) {
         populateDetailedContent(content);
     } else {
         populateBasicContent(content);
     }
     
-    // Update completion button
     updateCompletionButton(content.id || content.moduleId);
 }
 
-/**
- * Populate detailed content with sections
- */
 function populateDetailedContent(content) {
     // Module header
     const moduleTitle = document.getElementById('module-title');
@@ -249,6 +201,13 @@ function populateDetailedContent(content) {
         });
     }
     
+    // Show detailed content section and hide basic overview
+    const detailedSection = document.getElementById('detailed-content-section');
+    if (detailedSection) {
+        detailedSection.style.display = 'block';
+        renderDetailedSections(content.sections);
+    }
+    
     // Videos
     if (content.videos) populateVideos(content.videos);
     
@@ -259,10 +218,106 @@ function populateDetailedContent(content) {
     if (content.assignment) populateAssignment(content.assignment);
 }
 
-/**
- * Populate basic content format
- */
+function renderDetailedSections(sections) {
+    const container = document.getElementById('detailed-content-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    sections.forEach((section, index) => {
+        const sectionElement = document.createElement('div');
+        sectionElement.className = 'content-section';
+        sectionElement.innerHTML = `
+            <div class="section-header">
+                <h3 class="section-title">${section.title}</h3>
+                <div class="section-meta">
+                    <span class="section-duration">${section.duration}</span>
+                    <span class="section-description">${section.description}</span>
+                </div>
+            </div>
+            <div class="section-content" id="section-content-${index}"></div>
+        `;
+        
+        container.appendChild(sectionElement);
+        
+        // Render section content
+        const contentContainer = document.getElementById(`section-content-${index}`);
+        if (contentContainer && section.content) {
+            renderSectionContent(section.content, contentContainer);
+        }
+    });
+}
+
+function renderSectionContent(contentItems, container) {
+    contentItems.forEach(item => {
+        const element = document.createElement('div');
+        element.className = `content-item content-${item.type}`;
+        
+        switch(item.type) {
+            case 'text':
+                element.innerHTML = `<p>${item.content}</p>`;
+                break;
+                
+            case 'heading':
+                element.innerHTML = `<h4>${item.content}</h4>`;
+                break;
+                
+            case 'steps':
+                const stepsList = item.content.map((step, index) => 
+                    `<li><span class="step-number">${index + 1}</span>${step}</li>`
+                ).join('');
+                element.innerHTML = `<ol class="steps-list">${stepsList}</ol>`;
+                break;
+                
+            case 'list':
+                const listItems = item.content.map(listItem => `<li>${listItem}</li>`).join('');
+                element.innerHTML = `<ul class="content-list">${listItems}</ul>`;
+                break;
+                
+            case 'image':
+                element.innerHTML = `
+                    <div class="image-container">
+                        <img src="${item.src}" alt="${item.alt}" class="content-image">
+                        <div class="image-caption">${item.caption}</div>
+                    </div>
+                `;
+                break;
+                
+            case 'warning':
+                element.innerHTML = `
+                    <div class="warning-box">
+                        <div class="warning-icon">⚠️</div>
+                        <div class="warning-text">${item.content}</div>
+                    </div>
+                `;
+                break;
+                
+            case 'code':
+                element.innerHTML = `
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-language">${item.language || 'code'}</span>
+                        </div>
+                        <pre><code>${item.content}</code></pre>
+                    </div>
+                `;
+                break;
+                
+            default:
+                element.innerHTML = `<p>${item.content || ''}</p>`;
+        }
+        
+        container.appendChild(element);
+    });
+}
+
 function populateBasicContent(module) {
+    // Hide detailed content section
+    const detailedSection = document.getElementById('detailed-content-section');
+    if (detailedSection) {
+        detailedSection.style.display = 'none';
+    }
+    
     // Module header
     const moduleTitle = document.getElementById('module-title');
     const moduleDuration = document.getElementById('module-duration');
@@ -296,9 +351,6 @@ function populateBasicContent(module) {
     if (module.assignment) populateAssignment(module.assignment);
 }
 
-/**
- * Populate video section
- */
 function populateVideos(videos) {
     const videoGrid = document.getElementById('video-grid');
     if (!videoGrid) return;
@@ -326,9 +378,6 @@ function populateVideos(videos) {
     });
 }
 
-/**
- * Populate GitHub section
- */
 function populateGitHub(github) {
     const githubDescription = document.getElementById('github-description');
     if (githubDescription) githubDescription.textContent = github.description;
@@ -338,13 +387,9 @@ function populateGitHub(github) {
         viewBtn.onclick = () => window.open(github.repo, '_blank');
     }
     
-    // Store repo URL for clone command
     window.currentRepoUrl = github.repo;
 }
 
-/**
- * Copy clone command to clipboard
- */
 function copyCloneCommand() {
     const repoUrl = window.currentRepoUrl;
     const cloneCommand = `git clone ${repoUrl}`;
@@ -352,7 +397,6 @@ function copyCloneCommand() {
     navigator.clipboard.writeText(cloneCommand).then(() => {
         showToast('Clone command copied to clipboard!');
     }).catch(() => {
-        // Fallback for older browsers
         const textArea = document.createElement('textarea');
         textArea.value = cloneCommand;
         document.body.appendChild(textArea);
@@ -363,9 +407,6 @@ function copyCloneCommand() {
     });
 }
 
-/**
- * Populate assignment section
- */
 function populateAssignment(assignment) {
     const assignmentTitle = document.getElementById('assignment-title');
     const assignmentDescription = document.getElementById('assignment-description');
@@ -377,7 +418,6 @@ function populateAssignment(assignment) {
     if (assignmentDue) assignmentDue.textContent = assignment.dueDate;
     if (submissionType) submissionType.textContent = assignment.submission.toUpperCase();
     
-    // Create submission interface based on type
     const submissionArea = document.getElementById('submission-area');
     if (!submissionArea) return;
     
@@ -407,16 +447,12 @@ function populateAssignment(assignment) {
     }
 }
 
-/**
- * Update navigation buttons
- */
 function updateNavigationButtons(moduleId) {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     
     if (!prevBtn || !nextBtn) return;
     
-    // Previous button
     if (moduleId === 1) {
         prevBtn.disabled = true;
         prevBtn.style.opacity = '0.5';
@@ -425,7 +461,6 @@ function updateNavigationButtons(moduleId) {
         prevBtn.style.opacity = '1';
     }
     
-    // Next button
     if (moduleId === moduleData.modules.length) {
         nextBtn.disabled = true;
         nextBtn.style.opacity = '0.5';
@@ -435,9 +470,6 @@ function updateNavigationButtons(moduleId) {
     }
 }
 
-/**
- * Navigate to previous/next module
- */
 function navigateModule(direction) {
     if (!currentModule) return;
     
@@ -448,9 +480,6 @@ function navigateModule(direction) {
     }
 }
 
-/**
- * Update completion button state
- */
 function updateCompletionButton(moduleId) {
     const completeBtn = document.getElementById('complete-btn');
     if (!completeBtn) return;
@@ -476,9 +505,6 @@ function updateCompletionButton(moduleId) {
     }
 }
 
-/**
- * Toggle module completion
- */
 function toggleModuleCompletion() {
     if (!currentModule) return;
     
@@ -486,15 +512,12 @@ function toggleModuleCompletion() {
     const isCompleted = userProgress.completed.includes(moduleId);
     
     if (isCompleted) {
-        // Remove from completed
         userProgress.completed = userProgress.completed.filter(id => id !== moduleId);
         showToast('Module marked as incomplete');
     } else {
-        // Add to completed
         userProgress.completed.push(moduleId);
         showToast('Module completed! 🎉');
         
-        // Add completed animation
         const completeBtn = document.getElementById('complete-btn');
         if (completeBtn) {
             completeBtn.style.transform = 'scale(1.1)';
@@ -504,23 +527,16 @@ function toggleModuleCompletion() {
         }
     }
     
-    // Update UI
     updateCompletionButton(moduleId);
     populateModuleNav();
     updateOverallProgress();
     saveUserProgress();
 }
 
-/**
- * Initialize progress tracking
- */
 function initializeProgress() {
     updateOverallProgress();
 }
 
-/**
- * Update overall progress
- */
 function updateOverallProgress() {
     const totalModules = moduleData.modules ? moduleData.modules.length : 12;
     const completedCount = userProgress.completed.length;
@@ -533,16 +549,10 @@ function updateOverallProgress() {
     if (progressFill) progressFill.style.width = `${progressPercentage}%`;
 }
 
-/**
- * Save user progress to localStorage
- */
 function saveUserProgress() {
     localStorage.setItem('userProgress', JSON.stringify(userProgress));
 }
 
-/**
- * Submit assignment
- */
 document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submit-btn');
     if (submitBtn) {
@@ -568,7 +578,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 submissionData.text = textContent.value;
             }
             
-            // Save submission (in real app, this would go to server)
             const submissions = JSON.parse(localStorage.getItem('submissions') || '{}');
             submissions[currentModule.id] = {
                 ...submissionData,
@@ -579,7 +588,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showToast('Assignment submitted successfully! ✅');
             
-            // Auto-complete module on submission
             if (!userProgress.completed.includes(currentModule.id)) {
                 toggleModuleCompletion();
             }
@@ -587,9 +595,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-/**
- * Show toast notification
- */
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
@@ -598,7 +603,6 @@ function showToast(message, type = 'success') {
     
     toastMessage.textContent = message;
     
-    // Set color based on type
     if (type === 'error') {
         toast.style.background = 'var(--error)';
     } else {
@@ -612,9 +616,6 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-/**
- * Logout function
- */
 function logout() {
     sessionStorage.clear();
     window.location.href = 'login.html';

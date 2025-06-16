@@ -1,7 +1,22 @@
 {
     "moduleId": 2,
     "title": "VR Development Setup & First Experience",
+    "duration": "1 hour",
     "overview": "Complete development environment setup from installation to deployment. Students will install Unity, configure Quest 2 for development, create their first VR scene, and deploy it to hardware.",
+    "objectives": [
+      "Install and configure Unity 2023.3 LTS with VR modules",
+      "Set up Meta Quest 2 developer mode and PC connection",
+      "Create and deploy first VR scene with grabbable objects",
+      "Establish complete development pipeline from code to headset",
+      "Test VR interactions on actual hardware"
+    ],
+    "videos": [
+      {
+        "title": "Unity Installation & VR Setup",
+        "url": "https://www.youtube.com/embed/HhtTtvBF5bI",
+        "duration": "15 min"
+      }
+    ],
     "sections": [
       {
         "id": "part1",
@@ -392,6 +407,16 @@
         ]
       }
     ],
+    "github": {
+      "repo": "https://github.com/techvr-solutions/module-2-vr-setup-experience",
+      "description": "Complete VR development starter kit with Unity project template, setup scripts, installation guides, and first VR scene with interactive objects"
+    },
+    "assignment": {
+      "title": "VR Development Environment & First Scene",
+      "description": "Set up complete VR development environment on your laptop, configure Quest 2 for development, create and deploy a VR scene with at least 3 grabbable objects and teleportation. Submit GitHub repository with your project and a 2-minute video recording of you testing the scene in VR.",
+      "submission": "github",
+      "dueDate": "Week 2"
+    },
     "additionalResources": [
       {
         "title": "Unity XR Documentation",

@@ -12,9 +12,6 @@
       "duration": "1 hour",
       "description": "First VR experience with pre-built cycle assembly simulation",
       "objectives": ["Experience VR technology", "Understand VR potential", "Course overview"],
-      "videos": [
-        {"title": "Welcome to VR Development", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "15 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-1-vr-demo",
         "description": "Pre-built VR cycle assembly experience"
@@ -39,9 +36,6 @@
         "Establish complete development pipeline from code to headset",
         "Test VR interactions on actual hardware"
       ],
-      "videos": [
-        {"title": "VR Development Setup & First Experience Complete Workshop", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "45 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-2-vr-setup-experience",
         "description": "Complete VR development starter kit with Unity project template, setup scripts, installation guides, and first VR scene with interactive objects"
@@ -60,9 +54,6 @@
       "duration": "1 hour",
       "description": "Implementing teleportation and smooth locomotion systems for comfortable VR navigation",
       "objectives": ["Implement teleportation system", "Add smooth locomotion", "Configure comfort settings", "Prevent motion sickness"],
-      "videos": [
-        {"title": "VR Locomotion Systems", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "30 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-3-movement",
         "description": "VR locomotion system templates and navigation examples"
@@ -81,9 +72,6 @@
       "duration": "1 hour",
       "description": "Quest 2 controller input mapping, hand tracking, and interaction systems",
       "objectives": ["Map Quest 2 controller inputs", "Implement hand tracking", "Create grab and release mechanics", "Build interaction framework"],
-      "videos": [
-        {"title": "Quest 2 Interaction Systems", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "28 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-4-interactions",
         "description": "Complete interaction framework with controller and hand tracking support"
@@ -102,9 +90,6 @@
       "duration": "1 hour",
       "description": "Creating intuitive 3D UI elements and menu systems optimized for VR interaction",
       "objectives": ["Design 3D UI principles", "Implement floating menus", "Create button interactions", "Optimize UI placement"],
-      "videos": [
-        {"title": "VR UI Design & Implementation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "32 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-5-ui",
         "description": "VR UI component library with interactive elements and templates"
@@ -123,9 +108,6 @@
       "duration": "1 hour",
       "description": "Implementing realistic VR physics simulation and natural object interactions",
       "objectives": ["Set up VR physics systems", "Create realistic object behavior", "Implement tool interactions", "Optimize physics performance"],
-      "videos": [
-        {"title": "VR Physics & Realistic Interactions", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "35 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-6-physics",
         "description": "Physics simulation playground with realistic interaction examples"
@@ -144,9 +126,6 @@
       "duration": "1 hour",
       "description": "Spatial audio implementation, haptic feedback, and creating immersive VR environments",
       "objectives": ["Implement 3D spatial audio", "Add haptic feedback systems", "Create environmental audio", "Optimize audio performance"],
-      "videos": [
-        {"title": "Spatial Audio & Haptic Feedback", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "27 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-7-audio",
         "description": "Complete audio system with spatial sound and haptic feedback examples"
@@ -165,9 +144,6 @@
       "duration": "1 hour",
       "description": "Character animation in VR, avatar systems, and interactive NPC development",
       "objectives": ["Animate VR characters", "Create player avatar representation", "Implement NPC interactions", "Design dialogue systems"],
-      "videos": [
-        {"title": "VR Character Animation & Avatars", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "38 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-8-animation",
         "description": "Character animation frameworks, avatar templates, and NPC interaction systems"
@@ -186,9 +162,6 @@
       "duration": "1 hour",
       "description": "VR-specific optimization techniques to maintain 90fps on Quest 2 hardware",
       "objectives": ["Achieve 90fps performance", "Reduce rendering latency", "Optimize memory usage", "Implement level-of-detail systems"],
-      "videos": [
-        {"title": "VR Performance Optimization", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "33 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-9-optimization",
         "description": "Performance optimization tools, profiling scripts, and test scenes"
@@ -207,9 +180,6 @@
       "duration": "1 hour",
       "description": "Design and develop a complete VR game prototype integrating all learned concepts",
       "objectives": ["Apply VR game design principles", "Rapid prototyping workflow", "User testing methodologies", "Complete game loop"],
-      "videos": [
-        {"title": "VR Game Development Workshop", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "45 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-10-game-project",
         "description": "Complete game framework templates with project guidelines and examples"
@@ -228,9 +198,6 @@
       "duration": "1 hour",
       "description": "Create educational VR simulation for industry-specific training applications",
       "objectives": ["Design effective training scenarios", "Implement learning objectives", "Create assessment systems", "Industry application focus"],
-      "videos": [
-        {"title": "Educational VR Design Workshop", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "40 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-11-training-project",
         "description": "Training simulation templates with assessment tools and industry scenarios"
@@ -249,9 +216,6 @@
       "duration": "1 hour",
       "description": "Creative hackathon-style development of innovative VR solutions for real-world problems",
       "objectives": ["Creative problem-solving", "Innovation in VR applications", "Complete product development", "Professional presentation skills"],
-      "videos": [
-        {"title": "VR Innovation & Capstone Strategy", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "35 min"}
-      ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-12-capstone",
         "description": "Real-world problem statements, advanced templates, and presentation guidelines"
