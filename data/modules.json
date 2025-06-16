@@ -13,8 +13,7 @@
       "description": "First VR experience with pre-built cycle assembly simulation",
       "objectives": ["Experience VR technology", "Understand VR potential", "Course overview"],
       "videos": [
-        {"title": "Welcome to VR Development", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "5 min"},
-        {"title": "VR Industry Overview", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "8 min"}
+        {"title": "Welcome to VR Development", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "15 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-1-vr-demo",
@@ -35,9 +34,7 @@
       "description": "Unity installation, VR project configuration, and basic scene creation for Quest 2 development",
       "objectives": ["Install Unity Hub and VR modules", "Configure Meta Quest development", "Create first VR scene", "Deploy to headset"],
       "videos": [
-        {"title": "Unity Installation Guide", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "10 min"},
-        {"title": "Quest 2 Development Setup", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"},
-        {"title": "Basic VR Scene Creation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "8 min"}
+        {"title": "Unity VR Setup Complete Guide", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "25 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-2-unity-setup",
@@ -58,9 +55,7 @@
       "description": "Implementing teleportation and smooth locomotion systems for comfortable VR navigation",
       "objectives": ["Implement teleportation system", "Add smooth locomotion", "Configure comfort settings", "Prevent motion sickness"],
       "videos": [
-        {"title": "Teleportation System Implementation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "15 min"},
-        {"title": "Smooth Locomotion & Comfort", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"},
-        {"title": "Navigation Best Practices", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "8 min"}
+        {"title": "VR Locomotion Systems", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "30 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-3-movement",
@@ -81,9 +76,7 @@
       "description": "Quest 2 controller input mapping, hand tracking, and interaction systems",
       "objectives": ["Map Quest 2 controller inputs", "Implement hand tracking", "Create grab and release mechanics", "Build interaction framework"],
       "videos": [
-        {"title": "Quest 2 Controller Setup", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"},
-        {"title": "Hand Tracking Implementation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "14 min"},
-        {"title": "Advanced Interaction Systems", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "10 min"}
+        {"title": "Quest 2 Interaction Systems", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "28 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-4-interactions",
@@ -104,9 +97,7 @@
       "description": "Creating intuitive 3D UI elements and menu systems optimized for VR interaction",
       "objectives": ["Design 3D UI principles", "Implement floating menus", "Create button interactions", "Optimize UI placement"],
       "videos": [
-        {"title": "VR UI Design Principles", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "13 min"},
-        {"title": "3D Menu Implementation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "16 min"},
-        {"title": "UI Interaction Patterns", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "9 min"}
+        {"title": "VR UI Design & Implementation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "32 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-5-ui",
@@ -127,9 +118,7 @@
       "description": "Implementing realistic VR physics simulation and natural object interactions",
       "objectives": ["Set up VR physics systems", "Create realistic object behavior", "Implement tool interactions", "Optimize physics performance"],
       "videos": [
-        {"title": "VR Physics Foundation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "14 min"},
-        {"title": "Realistic Object Interactions", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "15 min"},
-        {"title": "Physics Performance Tips", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "8 min"}
+        {"title": "VR Physics & Realistic Interactions", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "35 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-6-physics",
@@ -150,9 +139,7 @@
       "description": "Spatial audio implementation, haptic feedback, and creating immersive VR environments",
       "objectives": ["Implement 3D spatial audio", "Add haptic feedback systems", "Create environmental audio", "Optimize audio performance"],
       "videos": [
-        {"title": "Spatial Audio Setup", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"},
-        {"title": "Haptic Feedback Integration", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "10 min"},
-        {"title": "Immersive Audio Design", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "11 min"}
+        {"title": "Spatial Audio & Haptic Feedback", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "27 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-7-audio",
@@ -173,9 +160,7 @@
       "description": "Character animation in VR, avatar systems, and interactive NPC development",
       "objectives": ["Animate VR characters", "Create player avatar representation", "Implement NPC interactions", "Design dialogue systems"],
       "videos": [
-        {"title": "VR Character Animation", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "17 min"},
-        {"title": "Avatar System Development", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "13 min"},
-        {"title": "Interactive NPCs", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"}
+        {"title": "VR Character Animation & Avatars", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "38 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-8-animation",
@@ -196,9 +181,7 @@
       "description": "VR-specific optimization techniques to maintain 90fps on Quest 2 hardware",
       "objectives": ["Achieve 90fps performance", "Reduce rendering latency", "Optimize memory usage", "Implement level-of-detail systems"],
       "videos": [
-        {"title": "VR Performance Fundamentals", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "16 min"},
-        {"title": "Quest 2 Optimization", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "14 min"},
-        {"title": "Advanced Optimization Techniques", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"}
+        {"title": "VR Performance Optimization", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "33 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-9-optimization",
@@ -219,9 +202,7 @@
       "description": "Design and develop a complete VR game prototype integrating all learned concepts",
       "objectives": ["Apply VR game design principles", "Rapid prototyping workflow", "User testing methodologies", "Complete game loop"],
       "videos": [
-        {"title": "VR Game Design Fundamentals", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "22 min"},
-        {"title": "Rapid Prototyping in VR", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "18 min"},
-        {"title": "VR User Testing", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "13 min"}
+        {"title": "VR Game Development Workshop", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "45 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-10-game-project",
@@ -242,9 +223,7 @@
       "description": "Create educational VR simulation for industry-specific training applications",
       "objectives": ["Design effective training scenarios", "Implement learning objectives", "Create assessment systems", "Industry application focus"],
       "videos": [
-        {"title": "Educational VR Design", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "20 min"},
-        {"title": "Training Simulation Development", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "16 min"},
-        {"title": "Assessment Integration", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"}
+        {"title": "Educational VR Design Workshop", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "40 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-11-training-project",
@@ -265,9 +244,7 @@
       "description": "Creative hackathon-style development of innovative VR solutions for real-world problems",
       "objectives": ["Creative problem-solving", "Innovation in VR applications", "Complete product development", "Professional presentation skills"],
       "videos": [
-        {"title": "Innovation in VR", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "15 min"},
-        {"title": "Hackathon Strategy", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "12 min"},
-        {"title": "Professional VR Presentations", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "10 min"}
+        {"title": "VR Innovation & Capstone Strategy", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "35 min"}
       ],
       "github": {
         "repo": "https://github.com/techvr-solutions/module-12-capstone",
