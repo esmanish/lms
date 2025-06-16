@@ -620,3 +620,36 @@ function logout() {
     sessionStorage.clear();
     window.location.href = 'login.html';
 }
+
+// Sidebar toggle functionality
+let sidebarHidden = false;
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    
+    sidebarHidden = !sidebarHidden;
+    
+    if (sidebarHidden) {
+        sidebar.classList.add('hidden');
+        mainContent.classList.add('expanded');
+        toggleBtn.classList.add('sidebar-hidden');
+    } else {
+        sidebar.classList.remove('hidden');
+        mainContent.classList.remove('expanded');
+        toggleBtn.classList.remove('sidebar-hidden');
+    }
+    
+    // Save state to localStorage
+    localStorage.setItem('sidebarHidden', sidebarHidden);
+}
+
+// Restore sidebar state on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const savedState = localStorage.getItem('sidebarHidden');
+    if (savedState === 'true') {
+        sidebarHidden = false; // Will be toggled to true
+        toggleSidebar();
+    }
+});
