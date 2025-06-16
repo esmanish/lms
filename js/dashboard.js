@@ -30,7 +30,10 @@ function checkAuth() {
     }
     
     // Set username in header
-    document.getElementById('username').textContent = username || 'Student';
+    const usernameElement = document.getElementById('username');
+    if (usernameElement) {
+        usernameElement.textContent = username || 'Student';
+    }
 }
 
 /**
@@ -87,94 +90,12 @@ async function loadModules() {
 }
 
 /**
- * Load detailed module content
- */
-async function loadModuleContent(moduleId) {
-    try {
-        console.log(`Loading content for module ${moduleId}`);
-        const response = await fetch(`data/content/module-${moduleId}-content.json`);
-        console.log(`Content response status: ${response.status}`);
-        
-        if (response.ok) {
-            const text = await response.text();
-            console.log('Raw response:', text);
-            
-            if (text.trim() === '') {
-                console.log('Empty content file');
-                return null;
-            }
-            
-            const content = JSON.parse(text);
-            console.log('Content loaded:', content);
-            return content;
-        } else {
-            console.log(`Content file not found: module-${moduleId}-content.json`);
-            return null;
-        }
-    } catch (error) {
-        console.error('Content loading error:', error);
-        return null;
-    }
-}
-
-/**
- * Populate detailed module content
- */
-function populateDetailedContent(content) {
-    if (!content || !content.sections) return '';
-    
-    return `
-        <section class="module-section">
-            <h2>Detailed Instructions</h2>
-            <div class="content-sections">
-                ${content.sections.map(section => `
-                    <div class="content-section">
-                        <h3>${section.title}</h3>
-                        <div class="section-duration">${section.duration}</div>
-                        <div class="section-content">
-                            ${section.content.map(item => renderContentItem(item)).join('')}
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </section>
-    `;
-}
-
-/**
- * Render individual content items
- */
-function renderContentItem(item) {
-    switch (item.type) {
-        case 'text':
-            return `<p>${item.content}</p>`;
-        case 'heading':
-            return `<h4>${item.content}</h4>`;
-        case 'steps':
-            return `<ol>${item.content.map(step => `<li>${step}</li>`).join('')}</ol>`;
-        case 'image':
-            return `<div class="content-image">
-                <img src="${item.src}" alt="${item.alt}" />
-                <caption>${item.caption}</caption>
-            </div>`;
-        case 'code':
-            return `<pre><code class="language-${item.language}">${item.content}</code></pre>`;
-        case 'warning':
-            return `<div class="warning-box">⚠️ ${item.content}</div>`;
-        case 'tip':
-            return `<div class="tip-box">💡 ${item.content}</div>`;
-        case 'success':
-            return `<div class="success-box">✅ ${item.content}</div>`;
-        default:
-            return `<p>${item.content}</p>`;
-    }
-}
-
-/**
  * Populate module navigation sidebar
  */
 function populateModuleNav() {
     const moduleNav = document.getElementById('module-nav');
+    if (!moduleNav) return;
+    
     moduleNav.innerHTML = '';
     
     moduleData.modules.forEach((module, index) => {
@@ -203,8 +124,11 @@ function populateModuleNav() {
  * Show welcome screen
  */
 function showWelcomeScreen() {
-    document.getElementById('welcome-screen').style.display = 'block';
-    document.getElementById('module-content').style.display = 'none';
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const moduleContent = document.getElementById('module-content');
+    
+    if (welcomeScreen) welcomeScreen.style.display = 'block';
+    if (moduleContent) moduleContent.style.display = 'none';
     
     // Update active module in sidebar
     document.querySelectorAll('.module-item').forEach(item => {
@@ -222,8 +146,11 @@ async function loadModule(moduleId) {
     currentModule = module;
     
     // Hide welcome screen, show module content
-    document.getElementById('welcome-screen').style.display = 'none';
-    document.getElementById('module-content').style.display = 'block';
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const moduleContent = document.getElementById('module-content');
+    
+    if (welcomeScreen) welcomeScreen.style.display = 'none';
+    if (moduleContent) moduleContent.style.display = 'block';
     
     // Update active module in sidebar
     document.querySelectorAll('.module-item').forEach((item, index) => {
@@ -233,11 +160,33 @@ async function loadModule(moduleId) {
         }
     });
     
-    // Load detailed content first
-    const detailedContent = await loadModuleContent(moduleId);
+    // Try to load detailed content from individual module file
+    let detailedContent = null;
+    try {
+        console.log(`Loading content for module ${moduleId}`);
+        const contentResponse = await fetch(`data/content/module-${moduleId}-content.json`);
+        console.log('Content response status:', contentResponse.status);
+        
+        if (contentResponse.ok) {
+            const rawResponse = await contentResponse.text();
+            console.log('Raw response:', rawResponse);
+            
+            if (rawResponse.trim()) {
+                detailedContent = JSON.parse(rawResponse);
+                console.log('Content loaded:', detailedContent);
+            } else {
+                console.log('Empty content file');
+            }
+        }
+    } catch (error) {
+        console.log(`No detailed content for module ${moduleId}, using basic data:`, error.message);
+    }
     
-    // Populate module content with proper order
-    populateModuleContent(module, detailedContent);
+    // Use detailed content if available, otherwise fall back to basic module data
+    const contentToUse = detailedContent || module;
+    
+    // Populate module content
+    populateModuleContent(contentToUse);
     
     // Update navigation buttons
     updateNavigationButtons(moduleId);
@@ -248,186 +197,156 @@ async function loadModule(moduleId) {
     saveUserProgress();
     
     // Scroll to top
-    document.querySelector('.main-content').scrollTop = 0;
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) mainContent.scrollTop = 0;
+    
+    // Track module access
+    if (window.progressTracker) {
+        window.progressTracker.startModuleTracking(moduleId);
+    }
 }
 
 /**
- * Populate module content in proper order
+ * Populate module content (supports both basic and detailed formats)
  */
-function populateModuleContent(module, detailedContent) {
-    // Module header
-    document.getElementById('module-title').textContent = module.title;
-    document.getElementById('module-duration').textContent = module.duration;
-    document.getElementById('module-week').textContent = `Week ${module.id}`;
-    
-    // Module description and objectives
-    document.getElementById('module-description').textContent = module.description;
-    
-    const objectivesList = document.getElementById('module-objectives');
-    objectivesList.innerHTML = '';
-    module.objectives.forEach(objective => {
-        const li = document.createElement('li');
-        li.textContent = objective;
-        objectivesList.appendChild(li);
-    });
-    
-    // Clear existing dynamic sections - keep only overview
-    const moduleContent = document.getElementById('module-content');
-    const dynamicSections = moduleContent.querySelectorAll('.module-section:not(:first-child)');
-    dynamicSections.forEach(section => section.remove());
-    
-    // Build sections HTML
-    const sectionsHTML = `
-        ${populateDetailedContent(detailedContent)}
-        
-        <section class="module-section">
-            <h2>Video Lectures</h2>
-            <div class="video-grid" id="video-grid">
-                ${module.videos.map(video => `
-                    <div class="video-card">
-                        <iframe class="video-player" 
-                                src="${video.url}" 
-                                title="${video.title}"
-                                frameborder="0" 
-                                allowfullscreen>
-                        </iframe>
-                        <div class="video-info">
-                            <div class="video-title">${video.title}</div>
-                            <div class="video-duration">${video.duration}</div>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </section>
-
-        <section class="module-section">
-            <h2>GitHub Repository</h2>
-            <div class="github-section">
-                <div class="github-info">
-                    <div class="github-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                        </svg>
-                    </div>
-                    <div class="github-details">
-                        <h3>Code Repository</h3>
-                        <p>${module.github.description}</p>
-                    </div>
-                </div>
-                <div class="github-actions">
-                    <button class="github-btn view-btn" onclick="window.open('${module.github.repo}', '_blank')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        View Repository
-                    </button>
-                    <button class="github-btn clone-btn" onclick="copyCloneCommand('${module.github.repo}')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                        Clone Repository
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section class="module-section">
-            <h2>Assignment</h2>
-            <div class="assignment-section">
-                <div class="assignment-header">
-                    <h3>${module.assignment.title}</h3>
-                    <div class="assignment-meta">
-                        <span class="due-date">Due: ${module.assignment.dueDate}</span>
-                        <span class="submission-type">${module.assignment.submission.toUpperCase()}</span>
-                    </div>
-                </div>
-                <div class="assignment-content">
-                    <p>${module.assignment.description}</p>
-                </div>
-                <div class="assignment-submission">
-                    <div class="submission-area">
-                        ${module.assignment.submission === 'github' ? `
-                            <div style="color: var(--gray); margin-bottom: 15px;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;">
-                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                                </svg>
-                                <br>Submit your GitHub repository URL
-                            </div>
-                            <input type="url" id="github-url" placeholder="https://github.com/username/repository" 
-                                   style="width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; margin-bottom: 15px;">
-                        ` : `
-                            <div style="color: var(--gray); margin-bottom: 15px;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                </svg>
-                                <br>Write your response below
-                            </div>
-                            <textarea id="text-submission" placeholder="Type your assignment response here..." 
-                                      style="width: 100%; height: 120px; padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; resize: vertical;"></textarea>
-                        `}
-                    </div>
-                    <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="module-section">
-            <h2>Additional Resources</h2>
-            <div class="resources-grid">
-                <div class="resource-card">
-                    <div class="resource-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                        </svg>
-                    </div>
-                    <h3>Unity Documentation</h3>
-                    <p>Official Unity VR development guide</p>
-                    <a href="https://docs.unity3d.com/Manual/VROverview.html" target="_blank" class="resource-link">View Documentation</a>
-                </div>
-                <div class="resource-card">
-                    <div class="resource-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                        </svg>
-                    </div>
-                    <h3>Unity Learn</h3>
-                    <p>Interactive Unity tutorials and courses</p>
-                    <a href="https://learn.unity.com" target="_blank" class="resource-link">Access Unity Learn</a>
-                </div>
-                <div class="resource-card">
-                    <div class="resource-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                        </svg>
-                    </div>
-                    <h3>Discussion Forum</h3>
-                    <p>Ask questions and get help from peers</p>
-                    <a href="#" class="resource-link">Join Discussion</a>
-                </div>
-            </div>
-        </section>
-    `;
-    
-    // Insert after overview section
-    const overviewSection = moduleContent.querySelector('.module-section');
-    if (overviewSection) {
-        overviewSection.insertAdjacentHTML('afterend', sectionsHTML);
+function populateModuleContent(content) {
+    // Check if this is detailed content with sections
+    if (content.sections && Array.isArray(content.sections)) {
+        populateDetailedContent(content);
     } else {
-        moduleContent.insertAdjacentHTML('beforeend', sectionsHTML);
+        populateBasicContent(content);
     }
     
-    updateCompletionButton(module.id);
+    // Update completion button
+    updateCompletionButton(content.id || content.moduleId);
+}
+
+/**
+ * Populate detailed content with sections
+ */
+function populateDetailedContent(content) {
+    // Module header
+    const moduleTitle = document.getElementById('module-title');
+    const moduleDuration = document.getElementById('module-duration');
+    const moduleWeek = document.getElementById('module-week');
+    
+    if (moduleTitle) moduleTitle.textContent = content.title;
+    if (moduleDuration) moduleDuration.textContent = content.duration || "1 hour";
+    if (moduleWeek) moduleWeek.textContent = `Week ${content.moduleId}`;
+    
+    // Module overview
+    const moduleDescription = document.getElementById('module-description');
+    if (moduleDescription) moduleDescription.textContent = content.overview;
+    
+    // Learning objectives
+    const objectivesList = document.getElementById('module-objectives');
+    if (objectivesList && content.objectives) {
+        objectivesList.innerHTML = '';
+        content.objectives.forEach(objective => {
+            const li = document.createElement('li');
+            li.textContent = objective;
+            objectivesList.appendChild(li);
+        });
+    }
+    
+    // Videos
+    if (content.videos) populateVideos(content.videos);
+    
+    // GitHub section
+    if (content.github) populateGitHub(content.github);
+    
+    // Assignment
+    if (content.assignment) populateAssignment(content.assignment);
+}
+
+/**
+ * Populate basic content format
+ */
+function populateBasicContent(module) {
+    // Module header
+    const moduleTitle = document.getElementById('module-title');
+    const moduleDuration = document.getElementById('module-duration');
+    const moduleWeek = document.getElementById('module-week');
+    
+    if (moduleTitle) moduleTitle.textContent = module.title;
+    if (moduleDuration) moduleDuration.textContent = module.duration;
+    if (moduleWeek) moduleWeek.textContent = `Week ${module.id}`;
+    
+    // Module description and objectives
+    const moduleDescription = document.getElementById('module-description');
+    if (moduleDescription) moduleDescription.textContent = module.description;
+    
+    const objectivesList = document.getElementById('module-objectives');
+    if (objectivesList && module.objectives) {
+        objectivesList.innerHTML = '';
+        module.objectives.forEach(objective => {
+            const li = document.createElement('li');
+            li.textContent = objective;
+            objectivesList.appendChild(li);
+        });
+    }
+    
+    // Videos
+    if (module.videos) populateVideos(module.videos);
+    
+    // GitHub section
+    if (module.github) populateGitHub(module.github);
+    
+    // Assignment
+    if (module.assignment) populateAssignment(module.assignment);
+}
+
+/**
+ * Populate video section
+ */
+function populateVideos(videos) {
+    const videoGrid = document.getElementById('video-grid');
+    if (!videoGrid) return;
+    
+    videoGrid.innerHTML = '';
+    
+    videos.forEach((video, index) => {
+        const videoCard = document.createElement('div');
+        videoCard.className = 'video-card';
+        
+        videoCard.innerHTML = `
+            <iframe class="video-player" 
+                    src="${video.url}" 
+                    title="${video.title}"
+                    frameborder="0" 
+                    allowfullscreen>
+            </iframe>
+            <div class="video-info">
+                <div class="video-title">${video.title}</div>
+                <div class="video-duration">${video.duration}</div>
+            </div>
+        `;
+        
+        videoGrid.appendChild(videoCard);
+    });
+}
+
+/**
+ * Populate GitHub section
+ */
+function populateGitHub(github) {
+    const githubDescription = document.getElementById('github-description');
+    if (githubDescription) githubDescription.textContent = github.description;
+    
+    const viewBtn = document.getElementById('view-repo-btn');
+    if (viewBtn) {
+        viewBtn.onclick = () => window.open(github.repo, '_blank');
+    }
+    
+    // Store repo URL for clone command
+    window.currentRepoUrl = github.repo;
 }
 
 /**
  * Copy clone command to clipboard
  */
-function copyCloneCommand(repoUrl) {
+function copyCloneCommand() {
+    const repoUrl = window.currentRepoUrl;
     const cloneCommand = `git clone ${repoUrl}`;
     
     navigator.clipboard.writeText(cloneCommand).then(() => {
@@ -445,44 +364,46 @@ function copyCloneCommand(repoUrl) {
 }
 
 /**
- * Submit assignment
+ * Populate assignment section
  */
-function submitAssignment() {
-    if (!currentModule) return;
+function populateAssignment(assignment) {
+    const assignmentTitle = document.getElementById('assignment-title');
+    const assignmentDescription = document.getElementById('assignment-description');
+    const assignmentDue = document.getElementById('assignment-due');
+    const submissionType = document.getElementById('submission-type');
     
-    const assignment = currentModule.assignment;
-    let submissionData = {};
+    if (assignmentTitle) assignmentTitle.textContent = assignment.title;
+    if (assignmentDescription) assignmentDescription.textContent = assignment.description;
+    if (assignmentDue) assignmentDue.textContent = assignment.dueDate;
+    if (submissionType) submissionType.textContent = assignment.submission.toUpperCase();
+    
+    // Create submission interface based on type
+    const submissionArea = document.getElementById('submission-area');
+    if (!submissionArea) return;
     
     if (assignment.submission === 'github') {
-        const githubUrl = document.getElementById('github-url').value;
-        if (!githubUrl) {
-            showToast('Please enter your GitHub repository URL', 'error');
-            return;
-        }
-        submissionData.url = githubUrl;
+        submissionArea.innerHTML = `
+            <div style="color: var(--gray); margin-bottom: 15px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+                <br>Submit your GitHub repository URL
+            </div>
+            <input type="url" id="github-url" placeholder="https://github.com/username/repository" 
+                   style="width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; margin-bottom: 15px;">
+        `;
     } else if (assignment.submission === 'text') {
-        const textContent = document.getElementById('text-submission').value;
-        if (!textContent.trim()) {
-            showToast('Please write your response', 'error');
-            return;
-        }
-        submissionData.text = textContent;
-    }
-    
-    // Save submission
-    const submissions = JSON.parse(localStorage.getItem('submissions') || '{}');
-    submissions[currentModule.id] = {
-        ...submissionData,
-        submittedAt: new Date().toISOString(),
-        moduleId: currentModule.id
-    };
-    localStorage.setItem('submissions', JSON.stringify(submissions));
-    
-    showToast('Assignment submitted successfully! ✅');
-    
-    // Auto-complete module on submission
-    if (!userProgress.completed.includes(currentModule.id)) {
-        toggleModuleCompletion();
+        submissionArea.innerHTML = `
+            <div style="color: var(--gray); margin-bottom: 15px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                <br>Write your response below
+            </div>
+            <textarea id="text-submission" placeholder="Type your assignment response here..." 
+                      style="width: 100%; height: 120px; padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; resize: vertical;"></textarea>
+        `;
     }
 }
 
@@ -492,6 +413,8 @@ function submitAssignment() {
 function updateNavigationButtons(moduleId) {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+    
+    if (!prevBtn || !nextBtn) return;
     
     // Previous button
     if (moduleId === 1) {
@@ -530,6 +453,8 @@ function navigateModule(direction) {
  */
 function updateCompletionButton(moduleId) {
     const completeBtn = document.getElementById('complete-btn');
+    if (!completeBtn) return;
+    
     const isCompleted = userProgress.completed.includes(moduleId);
     
     if (isCompleted) {
@@ -571,10 +496,12 @@ function toggleModuleCompletion() {
         
         // Add completed animation
         const completeBtn = document.getElementById('complete-btn');
-        completeBtn.style.transform = 'scale(1.1)';
-        setTimeout(() => {
-            completeBtn.style.transform = 'scale(1)';
-        }, 200);
+        if (completeBtn) {
+            completeBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                completeBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
     }
     
     // Update UI
@@ -599,8 +526,11 @@ function updateOverallProgress() {
     const completedCount = userProgress.completed.length;
     const progressPercentage = Math.round((completedCount / totalModules) * 100);
     
-    document.getElementById('overall-progress').textContent = progressPercentage;
-    document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
+    const overallProgress = document.getElementById('overall-progress');
+    const progressFill = document.getElementById('progress-fill');
+    
+    if (overallProgress) overallProgress.textContent = progressPercentage;
+    if (progressFill) progressFill.style.width = `${progressPercentage}%`;
 }
 
 /**
@@ -611,11 +541,60 @@ function saveUserProgress() {
 }
 
 /**
+ * Submit assignment
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function() {
+            if (!currentModule) return;
+            
+            const assignment = currentModule.assignment;
+            let submissionData = {};
+            
+            if (assignment.submission === 'github') {
+                const githubUrl = document.getElementById('github-url');
+                if (!githubUrl || !githubUrl.value) {
+                    showToast('Please enter your GitHub repository URL', 'error');
+                    return;
+                }
+                submissionData.url = githubUrl.value;
+            } else if (assignment.submission === 'text') {
+                const textContent = document.getElementById('text-submission');
+                if (!textContent || !textContent.value.trim()) {
+                    showToast('Please write your response', 'error');
+                    return;
+                }
+                submissionData.text = textContent.value;
+            }
+            
+            // Save submission (in real app, this would go to server)
+            const submissions = JSON.parse(localStorage.getItem('submissions') || '{}');
+            submissions[currentModule.id] = {
+                ...submissionData,
+                submittedAt: new Date().toISOString(),
+                moduleId: currentModule.id
+            };
+            localStorage.setItem('submissions', JSON.stringify(submissions));
+            
+            showToast('Assignment submitted successfully! ✅');
+            
+            // Auto-complete module on submission
+            if (!userProgress.completed.includes(currentModule.id)) {
+                toggleModuleCompletion();
+            }
+        });
+    }
+});
+
+/**
  * Show toast notification
  */
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
+    
+    if (!toast || !toastMessage) return;
     
     toastMessage.textContent = message;
     
