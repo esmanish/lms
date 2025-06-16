@@ -1,0 +1,426 @@
+{
+    "moduleId": 2,
+    "title": "VR Development Setup & First Experience",
+    "overview": "Complete development environment setup from installation to deployment. Students will install Unity, configure Quest 2 for development, create their first VR scene, and deploy it to hardware.",
+    "sections": [
+      {
+        "id": "part1",
+        "title": "Part 1: Development Environment Setup",
+        "duration": "15 min",
+        "description": "Install and configure all necessary software tools for VR development",
+        "content": [
+          {
+            "type": "text",
+            "content": "Setting up a VR development environment requires several key software components. We'll install Unity Hub, Unity Editor with VR modules, Meta Quest Developer Hub, GitHub Desktop, and configure Android SDK for Quest deployment."
+          },
+          {
+            "type": "heading",
+            "content": "Unity Hub & Unity Editor Installation"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Download Unity Hub from unity.com/download",
+              "Install Unity Hub and create Unity account",
+              "Install Unity 2023.3 LTS with Android Build Support",
+              "Add XR Interaction Toolkit module"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/unity-hub-install.png",
+            "alt": "Unity Hub installation interface",
+            "caption": "Unity Hub installation screen with required modules"
+          },
+          {
+            "type": "warning",
+            "content": "Ensure you select Android Build Support during Unity installation - this is required for Quest 2 deployment."
+          },
+          {
+            "type": "heading",
+            "content": "Meta Quest Developer Hub Setup"
+          },
+          {
+            "type": "text",
+            "content": "Meta Quest Developer Hub provides essential tools for Quest development, including device management, debugging, and performance monitoring."
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Download Meta Quest Developer Hub from developer.oculus.com",
+              "Install and create Meta developer account",
+              "Enable developer mode in companion app",
+              "Configure ADB debugging tools"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/quest-dev-hub.png",
+            "alt": "Meta Quest Developer Hub interface",
+            "caption": "Quest Developer Hub showing connected device"
+          },
+          {
+            "type": "heading",
+            "content": "GitHub Desktop & Repository Setup"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Download GitHub Desktop from desktop.github.com",
+              "Install and sign in with GitHub account",
+              "Clone course repository: https://github.com/techvr-solutions/module-2-vr-setup-experience",
+              "Verify repository contents and Unity project structure"
+            ]
+          },
+          {
+            "type": "code",
+            "language": "bash",
+            "content": "git clone https://github.com/techvr-solutions/module-2-vr-setup-experience.git\ncd module-2-vr-setup-experience"
+          }
+        ]
+      },
+      {
+        "id": "part2",
+        "title": "Part 2: VR Headset Configuration",
+        "duration": "10 min",
+        "description": "Configure Meta Quest 2 for development and establish PC connection",
+        "content": [
+          {
+            "type": "text",
+            "content": "Before developing for Quest 2, we need to enable developer mode and establish a reliable connection between the headset and development PC."
+          },
+          {
+            "type": "heading",
+            "content": "Enable Developer Mode"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Install Meta Quest mobile app on smartphone",
+              "Pair Quest 2 headset with mobile app",
+              "Navigate to Settings > Developer Mode",
+              "Toggle developer mode ON",
+              "Accept developer agreement"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/quest-developer-mode.png",
+            "alt": "Quest mobile app developer mode setting",
+            "caption": "Enabling developer mode in Meta Quest mobile app"
+          },
+          {
+            "type": "heading",
+            "content": "PC Connection Setup"
+          },
+          {
+            "type": "text",
+            "content": "Establish USB debugging connection between Quest 2 and development PC for app deployment and testing."
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Connect Quest 2 to PC using USB-C cable",
+              "Put on headset and authorize PC connection",
+              "Open Meta Quest Developer Hub",
+              "Verify device appears in connected devices",
+              "Test ADB connection and device recognition"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/quest-pc-connection.png",
+            "alt": "Quest connected to PC via USB",
+            "caption": "Quest 2 successfully connected and recognized by PC"
+          },
+          {
+            "type": "tip",
+            "content": "Keep the USB cable connected throughout development for fastest deployment times."
+          }
+        ]
+      },
+      {
+        "id": "part3",
+        "title": "Part 3: Unity VR Project Creation",
+        "duration": "15 min",
+        "description": "Create and configure Unity project for VR development with XR Toolkit",
+        "content": [
+          {
+            "type": "text",
+            "content": "We'll create a new Unity VR project using XR Interaction Toolkit, which provides pre-built components for VR interactions, locomotion, and UI systems."
+          },
+          {
+            "type": "heading",
+            "content": "New VR Project Setup"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Open Unity Hub and click 'New Project'",
+              "Select '3D (URP)' template for Quest compatibility",
+              "Name project 'MyFirstVRExperience'",
+              "Choose project location and create"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/unity-new-project.png",
+            "alt": "Unity new project creation dialog",
+            "caption": "Creating new 3D URP project in Unity"
+          },
+          {
+            "type": "heading",
+            "content": "XR Interaction Toolkit Installation"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Open Window > Package Manager",
+              "Change dropdown to 'Unity Registry'",
+              "Search for 'XR Interaction Toolkit'",
+              "Click Install and import sample assets",
+              "Install XR Plugin Management package"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/xr-toolkit-install.png",
+            "alt": "XR Interaction Toolkit in Package Manager",
+            "caption": "Installing XR Interaction Toolkit package"
+          },
+          {
+            "type": "heading",
+            "content": "VR Scene Hierarchy Setup"
+          },
+          {
+            "type": "text",
+            "content": "Create the basic VR scene structure with player rig, controllers, and interaction components."
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Delete default Main Camera from scene",
+              "Right-click Hierarchy > XR > XR Origin (VR)",
+              "Add XR Interaction Manager to scene",
+              "Configure teleportation areas and interaction layers",
+              "Set up basic room environment with floor and walls"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/vr-scene-hierarchy.png",
+            "alt": "Unity scene hierarchy with XR components",
+            "caption": "Complete VR scene hierarchy with XR Origin and components"
+          },
+          {
+            "type": "heading",
+            "content": "Build Settings Configuration"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Open File > Build Settings",
+              "Switch platform to Android",
+              "Set Texture Compression to ASTC",
+              "Configure XR settings for Oculus/Meta Quest",
+              "Add current scene to build list"
+            ]
+          },
+          {
+            "type": "code",
+            "language": "csharp",
+            "content": "// Basic VR controller script example\nusing UnityEngine;\nusing UnityEngine.XR.Interaction.Toolkit;\n\npublic class VRController : MonoBehaviour\n{\n    private XRController controller;\n    \n    void Start()\n    {\n        controller = GetComponent<XRController>();\n    }\n    \n    void Update()\n    {\n        // Handle trigger input\n        if (controller.inputDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerPressed))\n        {\n            if (triggerPressed)\n            {\n                Debug.Log(\"Trigger pressed!\");\n            }\n        }\n    }\n}"
+          }
+        ]
+      },
+      {
+        "id": "part4",
+        "title": "Part 4: First VR Experience Development",
+        "duration": "15 min",
+        "description": "Create interactive VR scene with grabbable objects and teleportation",
+        "content": [
+          {
+            "type": "text",
+            "content": "Build your first interactive VR experience with objects you can grab, throw, and teleportation for movement."
+          },
+          {
+            "type": "heading",
+            "content": "Create Interactive Environment"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Create room with Cube primitives (walls, floor, ceiling)",
+              "Add materials and textures for visual appeal",
+              "Set up proper lighting with Directional Light",
+              "Add skybox for immersive environment"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/vr-room-setup.png",
+            "alt": "Basic VR room environment in Unity",
+            "caption": "Simple room environment with walls, floor, and lighting"
+          },
+          {
+            "type": "heading",
+            "content": "Add Grabbable Objects"
+          },
+          {
+            "type": "text",
+            "content": "Create interactive objects that users can pick up and manipulate with VR controllers."
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Create Sphere, Cube, and Cylinder primitives",
+              "Add Rigidbody component to each object",
+              "Add XR Grab Interactable component",
+              "Configure grab points and physics properties",
+              "Test grab interactions in Play mode"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/grabbable-objects.png",
+            "alt": "Grabbable objects with XR components",
+            "caption": "Objects configured with XR Grab Interactable components"
+          },
+          {
+            "type": "heading",
+            "content": "Implement Teleportation"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Create Plane primitives for teleport areas",
+              "Add Teleportation Area component",
+              "Configure teleportation materials and visuals",
+              "Set up teleport ray interactor on controllers",
+              "Test teleportation system in Unity Play mode"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/teleportation-setup.png",
+            "alt": "Teleportation areas in VR scene",
+            "caption": "Teleportation areas configured throughout the room"
+          },
+          {
+            "type": "tip",
+            "content": "Use distinct materials for teleportation areas to help users identify where they can teleport."
+          },
+          {
+            "type": "heading",
+            "content": "Unity Play Mode Testing"
+          },
+          {
+            "type": "text",
+            "content": "Test your VR scene directly in Unity editor before deploying to hardware."
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Click Play button in Unity editor",
+              "Use XR Device Simulator for testing",
+              "Verify controller interactions work correctly",
+              "Test grabbing and throwing objects",
+              "Validate teleportation functionality"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "part5",
+        "title": "Part 5: Deploy & Test on Quest 2",
+        "duration": "5 min",
+        "description": "Build and deploy VR application to Quest 2 hardware for testing",
+        "content": [
+          {
+            "type": "text",
+            "content": "Deploy your first VR experience to Quest 2 and test all interactions on actual hardware."
+          },
+          {
+            "type": "heading",
+            "content": "Build for Android/Quest"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Open File > Build Settings",
+              "Ensure Android platform is selected",
+              "Click 'Build and Run' to deploy to Quest",
+              "Wait for build process to complete",
+              "Application will launch automatically on Quest 2"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/unity-build-deploy.png",
+            "alt": "Unity build and deploy process",
+            "caption": "Building and deploying VR app to Quest 2"
+          },
+          {
+            "type": "heading",
+            "content": "Hardware Testing"
+          },
+          {
+            "type": "text",
+            "content": "Put on the Quest 2 headset and test your VR experience. This is the moment where your code comes to life in virtual reality!"
+          },
+          {
+            "type": "steps",
+            "content": [
+              "Put on Quest 2 headset",
+              "Navigate to 'Unknown Sources' in Quest library",
+              "Launch your VR application",
+              "Test grabbing objects with controllers",
+              "Test teleportation movement",
+              "Experience your first self-created VR world!"
+            ]
+          },
+          {
+            "type": "image",
+            "src": "images/module-2/vr-testing-hardware.png",
+            "alt": "Person testing VR app on Quest 2",
+            "caption": "Testing the completed VR experience on Quest 2 hardware"
+          },
+          {
+            "type": "success",
+            "content": "Congratulations! You've successfully created and deployed your first VR experience from Unity to Quest 2 hardware."
+          }
+        ]
+      }
+    ],
+    "additionalResources": [
+      {
+        "title": "Unity XR Documentation",
+        "url": "https://docs.unity3d.com/Manual/XR.html",
+        "description": "Official Unity documentation for XR development"
+      },
+      {
+        "title": "Meta Quest Developer Center",
+        "url": "https://developer.oculus.com/quest/",
+        "description": "Complete Quest development resources and guides"
+      },
+      {
+        "title": "XR Interaction Toolkit Manual",
+        "url": "https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@latest",
+        "description": "Detailed guide for XR Interaction Toolkit components"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "issue": "Quest 2 not detected by PC",
+        "solution": "Ensure developer mode is enabled, USB debugging is authorized, and use a data-capable USB-C cable"
+      },
+      {
+        "issue": "Build fails with Android SDK errors",
+        "solution": "Verify Android Build Support is installed in Unity Hub and Android SDK path is configured correctly"
+      },
+      {
+        "issue": "VR controllers not working in Unity",
+        "solution": "Check XR Plugin Management settings and ensure OpenXR or Oculus provider is enabled"
+      }
+    ]
+  }

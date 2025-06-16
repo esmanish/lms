@@ -29,20 +29,26 @@
     },
     {
       "id": 2,
-      "title": "Unity VR Setup & Basics",
+      "title": "VR Development Setup & First Experience",
       "duration": "1 hour",
-      "description": "Unity installation, VR project configuration, and basic scene creation for Quest 2 development",
-      "objectives": ["Install Unity Hub and VR modules", "Configure Meta Quest development", "Create first VR scene", "Deploy to headset"],
+      "description": "Complete development environment setup from installation to deployment. Students will install Unity, configure Quest 2 for development, create their first VR scene, and deploy it to hardware. Covers Unity Hub, Meta Quest Developer Hub, GitHub integration, Android SDK setup, VR project creation, and live hardware testing.",
+      "objectives": [
+        "Install and configure Unity 2023.3 LTS with VR modules",
+        "Set up Meta Quest 2 developer mode and PC connection",
+        "Create and deploy first VR scene with grabbable objects",
+        "Establish complete development pipeline from code to headset",
+        "Test VR interactions on actual hardware"
+      ],
       "videos": [
-        {"title": "Unity VR Setup Complete Guide", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "25 min"}
+        {"title": "VR Development Setup & First Experience Complete Workshop", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ", "duration": "45 min"}
       ],
       "github": {
-        "repo": "https://github.com/techvr-solutions/module-2-unity-setup",
-        "description": "Unity VR starter template with Quest 2 configuration"
+        "repo": "https://github.com/techvr-solutions/module-2-vr-setup-experience",
+        "description": "Complete VR development starter kit with Unity project template, setup scripts, installation guides, and first VR scene with interactive objects"
       },
       "assignment": {
-        "title": "Hello VR World",
-        "description": "Create and deploy a basic VR scene to Quest 2 headset",
+        "title": "VR Development Environment & First Scene",
+        "description": "Set up complete VR development environment on your laptop, configure Quest 2 for development, create and deploy a VR scene with at least 3 grabbable objects and teleportation. Submit GitHub repository with your project and a 2-minute video recording of you testing the scene in VR.",
         "submission": "github",
         "dueDate": "Week 2"
       },
