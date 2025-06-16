@@ -802,3 +802,43 @@ body {
         gap: 10px;
     }
 }
+
+/* Fixed Sidebar */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 320px;
+    height: calc(100vh - 70px);
+    background: var(--primary-light);
+    border-right: 1px solid var(--glass-border);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 50;
+}
+
+.main-content {
+    margin-left: 320px;
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* Update responsive design */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: auto;
+        order: 2;
+        border-right: none;
+        border-top: 1px solid var(--glass-border);
+    }
+    
+    .main-content {
+        margin-left: 0;
+        order: 1;
+    }
+}
